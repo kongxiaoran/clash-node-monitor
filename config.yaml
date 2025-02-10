@@ -1,0 +1,19 @@
+# 邮件配置
+email:
+  smtp_host: smtp.gmail.com
+  smtp_port: 587
+  username: sunli**@gmail.com
+  password: ecyvglzjtijrmmra
+  from: sunli**@gmail.com
+  to:
+    - 125***@qq.com
+  subject: Clash节点状态告警
+
+# Clash配置
+clash:
+  # Clash配置文件路径，可以是相对路径或绝对路径
+  config_path: ./clash.yaml
+  # 节点检测超时时间（秒）
+  timeout: 5
+  # 检测间隔时间（秒）
+  interval: 5
