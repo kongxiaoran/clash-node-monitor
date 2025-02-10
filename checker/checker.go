@@ -87,7 +87,7 @@ func CheckProxy(proxy *Proxy, timeout int) CheckResult {
 	if err != nil {
 		log.Printf("DNS解析失败 %s: %v, 继续使用原始域名", proxy.Server, err)
 	} else if len(ips) > 0 {
-		log.Printf("域名 %s 解析到 IP: %v", proxy.Server, ips[0])
+		//log.Printf("域名 %s 解析到 IP: %v", proxy.Server, ips[0])
 		proxy.Server = ips[0]
 	}
 

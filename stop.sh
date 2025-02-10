@@ -1,6 +1,11 @@
 #!/bin/bash
+PROGRAM_NAME=$(ls clash-node-monitor* 2>/dev/null | head -n 1)
 
-PROGRAM_NAME="clash-node-monitor"
+# 如果没有找到程序文件，退出脚本
+if [ -z "$PROGRAM_NAME" ]; then
+    echo "错误：找不到匹配的程序文件"
+    exit 1
+fi
 
 # 查找进程
 pid=$(ps -ef | grep $PROGRAM_NAME | grep -v grep | awk '{print $2}')

@@ -1,6 +1,13 @@
 #!/bin/bash
 
-PROGRAM_NAME="clash-node-monitor"
+# 自动查找程序文件名，假设程序名包含 "clash-node-monitor" 字符串
+PROGRAM_NAME=$(ls clash-node-monitor* 2>/dev/null | head -n 1)
+
+# 如果没有找到程序文件，退出脚本
+if [ -z "$PROGRAM_NAME" ]; then
+    echo "错误：找不到匹配的程序文件"
+    exit 1
+fi
 
 # 查找并杀掉已有的进程
 pid=$(ps -ef | grep $PROGRAM_NAME | grep -v grep | awk '{print $2}')
@@ -12,7 +19,7 @@ else
 fi
 
 # 检查程序文件是否存在
-if [ ! -f "./$PROGRAM_NAME" ]; then
+if [ ! -f "$PROGRAM_NAME" ]; then
     echo "错误：找不到 $PROGRAM_NAME 程序文件"
     exit 1
 fi

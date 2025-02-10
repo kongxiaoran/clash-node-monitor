@@ -3,15 +3,18 @@
 ## 一、功能
 - 定时检测clash节点是否可用
 ## 二、编译
-这里是编译给linux amd64平台使用的，如果需要在其他平台上部署运行，请自行修改go 编译命令
+下面的命令是编译给linux amd64平台使用的，如果需要在其他平台上部署运行，请自行修改go 编译命令。当然也可以直接使用github release中我提供的对应平台的二进制文件，这样避免自行编译了。
 ```bash
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o clash-node-monitor .
 ```
 
 ## 三、部署
 ### 3.1 自行准备 clash.yaml 
-这个文件就是正常的clash订阅配置文件。 项目中的clash.yaml 不是真实可用的clash订阅配置文件，而是给的一个示例。这里需要替换成你自己的clash订阅配置文件内容
-proxies:[] 包含所有节点，如果有些节点不需要检测，则新增 disabled：true。如下方中的节点配置：
+这个文件就是正常的clash订阅配置文件。 仓库里或者release中的clash.yaml 不是真实可用的clash订阅配置文件，而是给的一个示例。
+
+需要替换成你自己的clash订阅配置文件内容。
+
+如果有些节点不需要检测，则在 proxies:[]，对应节点上新增属性 disabled：true。如下方中的节点配置：
 ```yaml
     - { name: 香港-直连节点｜不限流量, type: vmess, server: aaaa.one, port: 80, uuid: 08f33264-9bb1-4c56-9623-e6f234ec8894, alterId: 0, cipher: auto, udp: true, network: ws, disabled: true}
 ```
@@ -46,8 +49,11 @@ clash:
 - to 是接受告警邮件的邮箱
 - subject 是告警邮件标题
 
+### 3.3 程序二进制文件 clash-node-monitor
+这个可以自行编译，也可以直接使用 本仓库release上提供的。
+
 ### 3.3 在linux上部署服务
-1）在服务器上新增文件夹 clash-node-monitor，用于存放项目文件
+1）在服务器上新增文件夹 clash-node-monitor，用于存放下面提及的各文件
 
 2）准备好clash配置文件（clash.yaml），放在目录clash-node-monitor下
 

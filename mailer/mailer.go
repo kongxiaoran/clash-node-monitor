@@ -3,6 +3,7 @@ package mailer
 import (
 	"fmt"
 	"log"
+	"mime"
 	"net/smtp"
 	"strings"
 	"time"
@@ -48,7 +49,7 @@ func (m *Mailer) SendAlertEmail(results []checker.CheckResult) error {
 	msg := fmt.Sprintf("From: %s\nTo: %s\nSubject: %s\n\n%s",
 		m.config.From,
 		strings.Join(m.config.To, ", "),
-		m.config.Subject,
+		encodeSubject(m.config.Subject),
 		body,
 	)
 
@@ -56,4 +57,10 @@ func (m *Mailer) SendAlertEmail(results []checker.CheckResult) error {
 	addr := fmt.Sprintf("%s:%d", m.config.SMTPHost, m.config.SMTPPort)
 	log.Println("发送告警邮件:\n", body)
 	return smtp.SendMail(addr, m.auth, m.config.From, m.config.To, []byte(msg))
+}
+
+func encodeSubject(subject string) string {
+	// 使用 quoted-printable 编码邮件标题
+	encodedSubject := mime.QEncoding.Encode("utf-8", subject)
+	return fmt.Sprintf("Subject: =?utf-8?Q?%s?=\n", encodedSubject)
 }
